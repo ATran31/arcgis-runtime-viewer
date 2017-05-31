@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -39,7 +38,6 @@ import com.esri.core.symbol.SimpleFillSymbol;
 import com.esri.core.symbol.SimpleLineSymbol;
 import com.esri.map.FeatureLayer;
 import com.esri.map.JMap;
-import com.esri.map.Layer;
 import com.esri.map.MapEvent;
 import com.esri.map.MapEventListener;
 import com.esri.map.MapOptions;
@@ -116,8 +114,10 @@ public class Viewer {
 			}
 		});
 	}
-
-	/**** PRIVATE METHODS ****/
+	
+	/**
+	 * Toggles the table of contents to display layers currently available in the map.
+	 */
 	private void toggleLayerList(){
 		if (layerListVisible == false){
 			// create a legend
@@ -153,7 +153,10 @@ public class Viewer {
 			layerListVisible = false;
 		}
 	}
-
+	
+	/**
+	 * Loads the main toolbar containing primary buttons and menus
+	 */
 	private void loadMainToolbar(){
 		// init toolbar
 		final JToolBar toolBar = new JToolBar("Main Tool Bar");
@@ -206,6 +209,9 @@ public class Viewer {
 		window.add(toolBar, BorderLayout.PAGE_START);
 	}
 
+	/**
+	 * Launches a JFileChooser to allow users to select a file. Filtered for .shp files.
+	 */
 	private void loadShpFile(){
 		// load files filtered for .shp extentsion
 		// generate an error popup if spatial refrence does not match map spatial refrence
@@ -261,19 +267,25 @@ public class Viewer {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * zoom the map in by a factor of 2
+	 */
 	private void zoomIn(){
-		// zoom the map in by a factor of 2
 		map.zoom(0.5);
 	}
 
+	/**
+	 * zoom the map out by a factor of 2
+	 */
 	private void zoomOut(){
-		// zoom the map out by a factor of 2
 		map.zoom(2);
 	}
 
+	/**
+	 * zoom the map to the full extent. current sent to CONUS.
+	 */
 	private void zoomFullExt(){
-		// zoom to full extent of the layer running on ArcGIS Server
 		map.zoomTo(map.getFullExtent());
 	}
 
