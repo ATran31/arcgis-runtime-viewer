@@ -55,7 +55,7 @@ public class Viewer {
 	/**** CONSTRUCTOR ****/
 	public Viewer() {
 		window = new JFrame();
-		window.setTitle("Application");
+		window.setTitle("Map Viewer Basic");
 		window.setSize(800, 600);
 		window.setLocationRelativeTo(null); // center on screen
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH); // default full screen
@@ -162,10 +162,10 @@ public class Viewer {
 		// button icons are used with permission from Flaticons
 		final JButton openFileBtn = new JButton(new ImageIcon("icons32/png/folder.png"));
 		openFileBtn.setToolTipText("Open Shapefile");
-		final JButton zInBtn = new JButton(new ImageIcon("icons32/png/zoom-out.png"));
-		zInBtn.setToolTipText("Zoom out");
-		final JButton zOutBtn = new JButton(new ImageIcon("icons32/png/zoom-in.png"));
-		zOutBtn.setToolTipText("Zoom in");
+		final JButton zOutBtn = new JButton(new ImageIcon("icons32/png/zoom-out.png"));
+		zOutBtn.setToolTipText("Zoom out");
+		final JButton zInBtn = new JButton(new ImageIcon("icons32/png/zoom-in.png"));
+		zInBtn.setToolTipText("Zoom in");
 		final JButton fullExtBtn= new JButton(new ImageIcon("icons32/png/full-ext.png"));
 		fullExtBtn.setToolTipText("Zoom to Full Extent");
 		final JButton toggleLyrListBtn = new JButton(new ImageIcon("icons32/png/layers.png"));
@@ -202,16 +202,6 @@ public class Viewer {
 				toggleLayerList();
 			}
 		});
-
-		// create a JLabel for the application title
-		JLabel appTitle = new JLabel("MAP VIEWER BASIC");
-		appTitle.setBorder(new EmptyBorder(0, 20, 0, 0));
-		appTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-		appTitle.setFont(new Font("Helvetica Neue", Font.BOLD, 30));
-		appTitle.setBackground(Color.white);
-		appTitle.setForeground(Color.black);
-		toolBar.add(appTitle);
-
 		// insert into UI
 		window.add(toolBar, BorderLayout.PAGE_START);
 	}
@@ -274,12 +264,12 @@ public class Viewer {
 
 	private void zoomIn(){
 		// zoom the map in by a factor of 2
-		map.zoom(2);
+		map.zoom(0.5);
 	}
 
 	private void zoomOut(){
 		// zoom the map out by a factor of 2
-		map.zoom(0.5);
+		map.zoom(2);
 	}
 
 	private void zoomFullExt(){
