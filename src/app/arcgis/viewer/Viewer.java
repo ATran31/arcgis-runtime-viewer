@@ -4,15 +4,22 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -20,6 +27,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -44,7 +54,8 @@ import com.esri.map.MapOptions;
 import com.esri.map.MapOptions.MapType;
 
 public class Viewer {
-
+	
+	/**** MEMBERS ****/
 	private JFrame window;
 	private JMap map;
 	private static boolean layerListVisible;
@@ -114,6 +125,8 @@ public class Viewer {
 			}
 		});
 	}
+
+	/*** METHODS ***/
 	
 	/**
 	 * Toggles the table of contents to display layers currently available in the map.
@@ -161,6 +174,7 @@ public class Viewer {
 		// init toolbar
 		final JToolBar toolBar = new JToolBar("Main Tool Bar");
 		toolBar.setPreferredSize(new Dimension(450, 40));
+		
 		// init toolbar buttons
 		// button icons are used with permission from Flaticons
 		final JButton openFileBtn = new JButton(new ImageIcon("icons32/png/folder.png"));
@@ -173,12 +187,14 @@ public class Viewer {
 		fullExtBtn.setToolTipText("Zoom to Full Extent");
 		final JButton toggleLyrListBtn = new JButton(new ImageIcon("icons32/png/layers.png"));
 		toggleLyrListBtn.setToolTipText("Layers");
+		
 		// add buttons to toolbar
 		toolBar.add(openFileBtn);
 		toolBar.add(zInBtn);
 		toolBar.add(zOutBtn);
 		toolBar.add(fullExtBtn);
 		toolBar.add(toggleLyrListBtn);
+		
 		// set event listeners for buttons on click
 		openFileBtn.addMouseListener(new MouseAdapter() {    	
 			public void mouseClicked(MouseEvent evt) { 
@@ -205,6 +221,96 @@ public class Viewer {
 				toggleLayerList();
 			}
 		});
+		
+		// add menu bar
+		JMenuBar menuBar = new JMenuBar();
+		
+		// add geoprocessing menu
+		JMenu gpMenu = new JMenu("Geoprocessing");
+		gpMenu.setMinimumSize(new Dimension(64, 32));
+		gpMenu.setBorder(BorderFactory.createRaisedBevelBorder());
+		
+		// add geoprocessing menu items
+		JMenu gpGeocodingMenu = new JMenu("Geocode");
+		JMenuItem gpGeocodeAddress = new JMenuItem("Address Lookup");
+		gpGeocodeAddress.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO TBD method from com.arcgis.runtime.utils.GPTask
+
+			}
+		});
+		JMenuItem gpGeocodeCoordinates = new JMenuItem("Coordinate Lookup");
+		gpGeocodeCoordinates.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO TBD method from com.arcgis.runtime.utils.GPTask
+
+			}
+		});
+		gpGeocodingMenu.add(gpGeocodeAddress);
+		gpGeocodingMenu.add(gpGeocodeCoordinates);
+		
+		JMenuItem gpBuffer = new JMenuItem("Buffer");
+		gpBuffer.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO TBD method from com.arcgis.runtime.utils.GPTask
+
+			}
+		});
+		
+		JMenuItem gpClip = new JMenuItem("Clip");
+		gpClip.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO TBD method from com.arcgis.runtime.utils.GPTask
+
+			}
+		});
+		
+		gpMenu.add(gpGeocodingMenu);
+		gpMenu.add(gpBuffer);
+		gpMenu.add(gpClip);
+		
+		// add a routing menu
+		JMenu routingMenu = new JMenu("Routing");
+		routingMenu.setMinimumSize(new Dimension(64, 32));
+		routingMenu.setBorder(BorderFactory.createRaisedBevelBorder());
+		
+		// add routing menu items
+		JMenuItem rtOSRM = new JMenuItem("OSRM");
+		rtOSRM.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO TBD method from com.arcgis.runtime.utils.RoutingTask
+
+			}
+		});
+		JMenuItem rtGoogle = new JMenuItem("Google");
+		rtGoogle.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO TBD method from com.arcgis.runtime.utils.RoutingTask
+
+			}
+		});		
+		routingMenu.add(rtOSRM);
+		routingMenu.add(rtGoogle);
+		
+		// add menus to menu bar
+		menuBar.add(gpMenu);
+		menuBar.add(routingMenu);
+		
+		// add menu bar to main toolbar
+		toolBar.add(menuBar);
+		
 		// insert into UI
 		window.add(toolBar, BorderLayout.PAGE_START);
 	}
