@@ -187,6 +187,10 @@ public class Viewer {
 		fullExtBtn.setToolTipText("Zoom to Full Extent");
 		final JButton toggleLyrListBtn = new JButton(new ImageIcon("icons32/png/layers.png"));
 		toggleLyrListBtn.setToolTipText("Layers");
+		final JButton geocodeBtn = new JButton(new ImageIcon("icons32/png/plot.png"));
+		geocodeBtn.setToolTipText("Geocoding");
+		final JButton routeBtn = new JButton(new ImageIcon("icons32/png/route.png"));
+		routeBtn.setToolTipText("Routing");
 		
 		// add buttons to toolbar
 		toolBar.add(openFileBtn);
@@ -194,6 +198,8 @@ public class Viewer {
 		toolBar.add(zOutBtn);
 		toolBar.add(fullExtBtn);
 		toolBar.add(toggleLyrListBtn);
+		toolBar.add(geocodeBtn);
+		toolBar.add(routeBtn);
 		
 		// set event listeners for buttons on click
 		openFileBtn.addMouseListener(new MouseAdapter() {    	
@@ -221,6 +227,16 @@ public class Viewer {
 				toggleLayerList();
 			}
 		});
+		geocodeBtn.addMouseListener(new MouseAdapter() {    	
+			public void mouseClicked(MouseEvent evt) { 
+				//TODO com.arcgis.runtime.utils.GeocodingTask
+			}
+		});
+		routeBtn.addMouseListener(new MouseAdapter() {    	
+			public void mouseClicked(MouseEvent evt) { 
+				//TODO com.arcgis.runtime.utils.ClipTask
+			}
+		});
 		
 		// add menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -229,36 +245,13 @@ public class Viewer {
 		JMenu gpMenu = new JMenu("Geoprocessing");
 		gpMenu.setMinimumSize(new Dimension(64, 32));
 		gpMenu.setBorder(BorderFactory.createRaisedBevelBorder());
-		
-		// add geoprocessing menu items
-		JMenu gpGeocodingMenu = new JMenu("Geocode");
-		JMenuItem gpGeocodeAddress = new JMenuItem("Address Lookup");
-		gpGeocodeAddress.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO TBD method from com.arcgis.runtime.utils.GPTask
-
-			}
-		});
-		JMenuItem gpGeocodeCoordinates = new JMenuItem("Coordinate Lookup");
-		gpGeocodeCoordinates.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO TBD method from com.arcgis.runtime.utils.GPTask
-
-			}
-		});
-		gpGeocodingMenu.add(gpGeocodeAddress);
-		gpGeocodingMenu.add(gpGeocodeCoordinates);
-		
+	
 		JMenuItem gpBuffer = new JMenuItem("Buffer");
 		gpBuffer.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO TBD method from com.arcgis.runtime.utils.GPTask
+				// TODO com.arcgis.runtime.utils.BufferTask
 
 			}
 		});
@@ -268,45 +261,16 @@ public class Viewer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO TBD method from com.arcgis.runtime.utils.GPTask
+				// TODO com.arcgis.runtime.utils.ClipTask
 
 			}
 		});
 		
-		gpMenu.add(gpGeocodingMenu);
 		gpMenu.add(gpBuffer);
 		gpMenu.add(gpClip);
 		
-		// add a routing menu
-		JMenu routingMenu = new JMenu("Routing");
-		routingMenu.setMinimumSize(new Dimension(64, 32));
-		routingMenu.setBorder(BorderFactory.createRaisedBevelBorder());
-		
-		// add routing menu items
-		JMenuItem rtOSRM = new JMenuItem("OSRM");
-		rtOSRM.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO TBD method from com.arcgis.runtime.utils.RoutingTask
-
-			}
-		});
-		JMenuItem rtGoogle = new JMenuItem("Google");
-		rtGoogle.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO TBD method from com.arcgis.runtime.utils.RoutingTask
-
-			}
-		});		
-		routingMenu.add(rtOSRM);
-		routingMenu.add(rtGoogle);
-		
 		// add menus to menu bar
 		menuBar.add(gpMenu);
-		menuBar.add(routingMenu);
 		
 		// add menu bar to main toolbar
 		toolBar.add(menuBar);
