@@ -17,9 +17,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -29,7 +26,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -37,6 +33,8 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.esri.runtime.ArcGISRuntime;
 import com.esri.toolkit.legend.JLegend;
@@ -46,8 +44,11 @@ import com.esri.core.renderer.SimpleRenderer;
 import com.esri.core.symbol.PictureMarkerSymbol;
 import com.esri.core.symbol.SimpleFillSymbol;
 import com.esri.core.symbol.SimpleLineSymbol;
+import com.esri.map.ArcGISTiledMapServiceLayer;
 import com.esri.map.FeatureLayer;
 import com.esri.map.JMap;
+import com.esri.map.Layer;
+import com.esri.map.LayerList;
 import com.esri.map.MapEvent;
 import com.esri.map.MapEventListener;
 import com.esri.map.MapOptions;
@@ -117,11 +118,9 @@ public class Viewer {
 			}
 			@Override
 			public void mapExtentChanged(MapEvent event) {
-				// TODO Auto-generated method stub
 			}
 			@Override
 			public void mapDispose(MapEvent event) {
-				// TODO Auto-generated method stub
 			}
 		});
 	}
@@ -241,6 +240,242 @@ public class Viewer {
 		// add menu bar
 		JMenuBar menuBar = new JMenuBar();
 		
+		// add basemap menu
+		JMenu basemapMenu = new JMenu("Basemap");
+		basemapMenu.setMinimumSize(new Dimension(64,32));
+		basemapMenu.setBorder(BorderFactory.createRaisedBevelBorder());
+		
+		JMenuItem osm = new JMenuItem("Open Street Map");
+		osm.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MapOptions o = new MapOptions(MapType.OSM);
+				map.getLayers().remove(0);
+				map.setMapOptions(o);
+			}
+		});
+		
+		JMenuItem esriWorldTopo = new JMenuItem("World Topo Map");
+		esriWorldTopo.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MapOptions o = new MapOptions(MapType.TOPO);
+				map.getLayers().remove(0);
+				map.setMapOptions(o);
+			}
+		});
+		
+		JMenuItem esriWorldStreet = new JMenuItem("World Street Map");
+		esriWorldStreet.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				MapOptions o = new MapOptions(MapType.STREETS);
+				map.getLayers().remove(0);
+				map.setMapOptions(o);
+			}
+		});
+			
+		JMenuItem esriWorldImagery = new JMenuItem("World Imagery");
+		esriWorldImagery.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				MapOptions o = new MapOptions(MapType.SATELLITE);
+				map.getLayers().remove(0);
+				map.setMapOptions(o);
+			}
+		});
+		
+		
+		JMenuItem esriOceanBasemap = new JMenuItem("Ocean Basemap");
+		esriOceanBasemap.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				MapOptions o = new MapOptions(MapType.OCEANS);
+				map.getLayers().remove(0);
+				map.setMapOptions(o);
+			}
+		});
+		
+		JMenuItem esriNatGeoWorld = new JMenuItem("National Geographic World Map");
+		esriNatGeoWorld.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				MapOptions o = new MapOptions(MapType.NATIONAL_GEOGRAPHIC);
+				map.getLayers().remove(0);
+				map.setMapOptions(o);
+			}
+		});
+		
+		JMenuItem esriWorldGrayCanvas = new JMenuItem("World Gray Canvas");
+		esriWorldGrayCanvas.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				MapOptions o = new MapOptions(MapType.GRAY_BASE);
+				map.getLayers().remove(0);
+				map.setMapOptions(o);
+			}
+		});
+
+		JMenuItem esriWorldTerrain = new JMenuItem("World Terrain");
+		esriWorldTerrain.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer");
+				map.getLayers().remove(0);
+				map.getLayers().add(0, tiledLayer);
+				}
+		});
+		
+		JMenuItem esriWorldShadedRelief = new JMenuItem("World Shaded Relief");
+		esriWorldShadedRelief.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/World_Shaded_Relief/MapServer");
+				map.getLayers().remove(0);
+				map.getLayers().add(0, tiledLayer);	
+			}
+		});
+		
+		JMenuItem esriWorldPhysical = new JMenuItem("World Physical");
+		esriWorldPhysical.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer");
+				map.getLayers().remove(0);
+				map.getLayers().add(0, tiledLayer);		
+			}
+		});
+		
+		JMenu esriSpecialtySubMenu = new JMenu("Specialty Maps");
+		
+		JMenuItem esriDelorne = new JMenuItem("Delorne");
+		esriDelorne.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/Specialty/DeLorme_World_Base_Map/MapServer");
+				map.getLayers().remove(0);
+				map.getLayers().add(0, tiledLayer);
+			}
+		});
+		
+		JMenuItem esriSoilSurvey = new JMenuItem("World Soil Survey");
+		esriSoilSurvey.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/Specialty/Soil_Survey_Map/MapServer");
+				map.getLayers().remove(0);
+				map.getLayers().add(0, tiledLayer);
+			}
+		});
+		
+		JMenuItem esriNavChart = new JMenuItem("World Navigation Chart");
+		esriNavChart.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/Specialty/World_Navigation_Charts/MapServer");
+				map.getLayers().remove(0);
+				map.getLayers().add(0, tiledLayer);
+			}
+		});
+		
+		JMenu referenceLayers = new JMenu("Reference Layers");
+		
+		String[] refLyrs = {"World Boundaries & Places Reference", "World Boundaries & Places Reference Alt.", "World Reference Overlay", "World Transportation Reference"};
+		
+		JMenuItem esriRefWorldPlacesBoundaries = new JMenuItem("World Boundaries & Places");
+		esriRefWorldPlacesBoundaries.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer");
+				tiledLayer.setName("World Boundaries & Places Reference");
+				LayerList L = map.getLayers();
+				for (int i = 0; i < L.size(); i++){
+					if (Arrays.asList(refLyrs).contains(L.get(i).getName())){
+						L.remove(i);
+					}
+				}
+				L.add(1, tiledLayer);
+			}
+		});
+		
+		JMenuItem esriRefWorldPlacesBoundariesAlt = new JMenuItem("World Boundaries & Places Alt.");
+		esriRefWorldPlacesBoundariesAlt.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places_Alternate/MapServer");
+				tiledLayer.setName("World Boundaries & Places Reference Alt.");
+				LayerList L = map.getLayers();
+				for (int i = 0; i < L.size(); i++){
+					if (Arrays.asList(refLyrs).contains(L.get(i).getName())){
+						L.remove(i);
+					}
+				}
+				L.add(1, tiledLayer);
+			}
+		});
+
+		JMenuItem esriRefWorldOverlay = new JMenuItem("World Reference Overlay");
+		esriRefWorldOverlay.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Reference_Overlay/MapServer");
+				tiledLayer.setName("World Reference Overlay");
+				LayerList L = map.getLayers();
+				for (int i = 0; i < L.size(); i++){
+					if (Arrays.asList(refLyrs).contains(L.get(i).getName())){
+						L.remove(i);
+					}
+				}
+				L.add(1, tiledLayer);
+			}
+		});
+		
+		JMenuItem esriRefWorldTransportation = new JMenuItem("World Transportation");
+		esriRefWorldTransportation.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				ArcGISTiledMapServiceLayer tiledLayer = new ArcGISTiledMapServiceLayer(
+				"http://services.arcgisonline.com/arcgis/rest/services/Reference/World_Transportation/MapServer");
+				tiledLayer.setName("World Transportation Reference");
+				LayerList L = map.getLayers();
+				for (int i = 0; i < L.size(); i++){
+					if (Arrays.asList(refLyrs).contains(L.get(i).getName())){
+						L.remove(i);
+					}
+				}
+				L.add(1, tiledLayer);
+			}
+		});
+		
+		basemapMenu.add(osm);
+		basemapMenu.add(esriWorldGrayCanvas);
+		basemapMenu.add(esriWorldStreet);
+		basemapMenu.add(esriWorldImagery);
+		basemapMenu.add(esriOceanBasemap);
+		basemapMenu.add(esriNatGeoWorld);
+		basemapMenu.add(esriWorldTopo);
+		basemapMenu.add(esriWorldTerrain);
+		basemapMenu.add(esriWorldShadedRelief);
+		basemapMenu.add(esriWorldPhysical);
+		basemapMenu.add(esriSpecialtySubMenu);
+			esriSpecialtySubMenu.add(esriDelorne);
+			esriSpecialtySubMenu.add(esriSoilSurvey);
+			esriSpecialtySubMenu.add(esriNavChart);
+		basemapMenu.add(referenceLayers);
+			referenceLayers.add(esriRefWorldPlacesBoundaries);
+			referenceLayers.add(esriRefWorldPlacesBoundariesAlt);
+			referenceLayers.add(esriRefWorldOverlay);
+			referenceLayers.add(esriRefWorldTransportation);
+
 		// add geoprocessing menu
 		JMenu gpMenu = new JMenu("Geoprocessing");
 		gpMenu.setMinimumSize(new Dimension(64, 32));
@@ -270,6 +505,7 @@ public class Viewer {
 		gpMenu.add(gpClip);
 		
 		// add menus to menu bar
+		menuBar.add(basemapMenu);
 		menuBar.add(gpMenu);
 		
 		// add menu bar to main toolbar
