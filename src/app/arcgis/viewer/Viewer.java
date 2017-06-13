@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -16,6 +17,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -228,12 +232,62 @@ public class Viewer {
 		});
 		geocodeBtn.addMouseListener(new MouseAdapter() {    	
 			public void mouseClicked(MouseEvent evt) { 
-				//TODO com.arcgis.runtime.utils.GeocodingTask
+				final JFrame geocodeForm = new JFrame();
+				geocodeForm.setTitle("Geocoding");
+				geocodeForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				
+				final JPanel mainPanel = new JPanel();
+				mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+				
+				JTextArea inputParams = new JTextArea(15,30);
+				JScrollPane scrollPane = new JScrollPane(inputParams);
+				
+				JRadioButton addressOpt = new JRadioButton("Address Search");
+				addressOpt.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e){
+						inputParams.setText("Enter one address per line...");
+					}
+				});
+				JRadioButton coordOpt = new JRadioButton("Coordinate Search");
+				coordOpt.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						inputParams.setText("Enter one comma separated lat,lon pair per line...");
+						
+					}
+				});
+				ButtonGroup gcOptions = new ButtonGroup();
+				gcOptions.add(addressOpt);
+				gcOptions.add(coordOpt);
+				
+				
+				JButton runBtn = new JButton("Run");
+				
+				mainPanel.add(addressOpt);
+				mainPanel.add(coordOpt);
+				mainPanel.add(scrollPane);
+				mainPanel.add(runBtn);
+				
+			    geocodeForm.add(mainPanel);
+			    geocodeForm.pack();
+			    geocodeForm.setLocationRelativeTo(null);
+			    geocodeForm.setVisible(true);
 			}
 		});
 		routeBtn.addMouseListener(new MouseAdapter() {    	
 			public void mouseClicked(MouseEvent evt) { 
-				//TODO com.arcgis.runtime.utils.ClipTask
+				final JFrame gpRoutingForm = new JFrame();
+				gpRoutingForm.setTitle("Direction Routing");
+				gpRoutingForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				final JPanel mainPanel = new JPanel();
+				mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+				JLabel tempMsg = new JLabel("Routing feature has not been implemented.");
+				mainPanel.add(tempMsg);
+			    gpRoutingForm.add(mainPanel);
+			    gpRoutingForm.pack();
+			    gpRoutingForm.setLocationRelativeTo(null);
+			    gpRoutingForm.setVisible(true);
 			}
 		});
 		
@@ -284,7 +338,6 @@ public class Viewer {
 				map.setMapOptions(o);
 			}
 		});
-		
 		
 		JMenuItem esriOceanBasemap = new JMenuItem("Ocean Basemap");
 		esriOceanBasemap.addActionListener(new ActionListener(){
@@ -486,7 +539,17 @@ public class Viewer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO com.arcgis.runtime.utils.BufferTask
+				final JFrame gpBufferForm = new JFrame();
+				gpBufferForm.setTitle("Geoprocessing - Buffer");
+				gpBufferForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				final JPanel mainPanel = new JPanel();
+				mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+				JLabel tempMsg = new JLabel("Buffer feature has not been implemented.");
+				mainPanel.add(tempMsg);
+			    gpBufferForm.add(mainPanel);
+			    gpBufferForm.pack();
+			    gpBufferForm.setLocationRelativeTo(null);
+			    gpBufferForm.setVisible(true);
 
 			}
 		});
@@ -496,7 +559,17 @@ public class Viewer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO com.arcgis.runtime.utils.ClipTask
+				final JFrame gpClipForm = new JFrame();
+				gpClipForm.setTitle("Geoprocessing - Clip");
+				gpClipForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				final JPanel mainPanel = new JPanel();
+				mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+				JLabel tempMsg = new JLabel("Clip feature has not been implemented.");
+				mainPanel.add(tempMsg);
+			    gpClipForm.add(mainPanel);
+			    gpClipForm.pack();
+			    gpClipForm.setLocationRelativeTo(null);
+			    gpClipForm.setVisible(true);
 
 			}
 		});
